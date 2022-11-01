@@ -1,5 +1,5 @@
 .idea
-proj.db
+aiedap.db
 *.pyc
 __pycache__
 migrations
