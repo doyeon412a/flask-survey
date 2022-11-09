@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <!-- 아이템 영역 -->
+    <h2 class="border-bottom py-2">{{ item_area.id }}. {{ item_area.area }}</h2>
+
+    <!-- 아이템 제목 -->
+
+    {% for item_title in item_area.item_title_set %}
+    <h5 class="border-bottom my-3 py-2">{{ item_title.id }}. {{ item_title.title }}</h5>
+        {% for item_content in item_title.item_content_set %}
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="card-text" style="white-space: pre-line;">{{ item_content.content }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="table-dark">
+            <th>번호</th>
+            <th>아이템 영역</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if item_area_list %}
+        {% for item_area in item_area_list %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                <a href="{{ url_for('item_area.detail', item_area_id=item_area.id) }}">{{ item_area.area }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">아이템이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -9,4 +9,4 @@ def hello_world():
 
 @bp.route('/')
 def index():
-    return redirect(url_for('question._list'))
+    return redirect(url_for('item_area._list'))
