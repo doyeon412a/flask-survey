@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <!-- 설문 제목 -->
+    <h2 class="border-bottom py-2">{{ survey_title.num }}. {{ survey_title.title }}</h2>
+    <form method="post" class="my-3">
+        <!-- 설문 내용 -->
+        {% for survey_content in survey_title.survey_content_set %}
+            {% if (survey_title.num == 4) %}
+                {% if (survey_content.num == 1) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">강신천 - 데이터 과학 이해</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 4) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">양영욱 - 인공지능/머신러닝 이해</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 7) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">김효은 - 인공지능 윤리 탐구</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 10) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">민홍기 - AI 융합(활용)수업 사례 I</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 13) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">문샛별 - AI 융합(활용)수업 사례 II</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 16) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">허희옥 - 교수설계 이해</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 19) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">이소율 - 수업설계</h5>
+                    </div>
+                </div>
+                {% elif (survey_content.num == 21) %}
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-text" style="white-space: pre-line;">이경희 - 수업설계</h5>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="card-text" style="white-space: pre-line;">{{ survey_content.content }}</div>
+            </div>
+        </div>
+            {% if (survey_content.usage == 3) %}
+            <div class="mb-3">
+                <textarea name= "{{ survey_content.id }}" value="" id="content" class="form-control" rows="5"></textarea>
+            </div>
+            {% elif (survey_content.usage == 4) %}
+                {% for survey_example in survey_content.survey_example_set %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="{{ survey_content.id }}" value="{{ survey_example.example }}" id="a{{ survey_example.id }}" >
+                    <label class="form-check-label" for="a{{ survey_example.id }}">
+                    {{ survey_example.example }}
+                    </label>
+                </div>
+                {% endfor %}
+            {% else %}
+                {% for survey_example in survey_content.survey_example_set %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ survey_content.id }}" value="{{ survey_example.example }}" id= "{{ survey_example.id }}" required>
+                    <label class="form-check-label" for="{{ survey_example.id }}">
+                    {{ survey_example.example }}
+                    </label>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        {% if (survey_title.num == 5) %}
+        <input type="submit" value="답변등록" class="btn btn-primary">
+        {% else %}
+        <input type="submit" value="다음" class="btn btn-primary">
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

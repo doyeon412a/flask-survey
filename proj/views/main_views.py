@@ -9,4 +9,4 @@ def hello_world():
 
 @bp.route('/')
 def index():
-    return redirect(url_for('item_area._list'))
+    return redirect(url_for('survey.detail', survey_title_id=1))

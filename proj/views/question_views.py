@@ -5,7 +5,7 @@ from werkzeug.utils import redirect
 
 from .. import db
 from proj.models import Question
-from proj.forms import QuestionForm, AnswerForm
+from proj.forms import QuestionForm, AnswerForm, Survey1Form
 
 bp = Blueprint('question', __name__, url_prefix='/question')
 
