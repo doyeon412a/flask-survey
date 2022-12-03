@@ -71,7 +71,6 @@ class Survey_example(db.Model):
     example = db.Column(db.String(200), nullable=False)
 class Survey1(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(100))
     a1 = db.Column(db.String(100), nullable=False)
     a2 = db.Column(db.String(100), nullable=False)
     a3 = db.Column(db.String(100), nullable=False)
@@ -84,7 +83,7 @@ class Survey1(db.Model):
 
 class Survey2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(100))
+    survey_id = db.Column(db.Integer)
     a1 = db.Column(db.Integer, nullable=False)
     a2 = db.Column(db.Integer, nullable=False)
     a3 = db.Column(db.Integer, nullable=False)
@@ -95,7 +94,7 @@ class Survey2(db.Model):
 
 class Survey3(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(100))
+    survey_id = db.Column(db.Integer)
     a1 = db.Column(db.Integer, nullable=False)
     a2 = db.Column(db.Integer, nullable=False)
     a3 = db.Column(db.Integer, nullable=False)
@@ -103,7 +102,7 @@ class Survey3(db.Model):
 
 class Survey4(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(100))
+    survey_id = db.Column(db.Integer)
     a1 = db.Column(db.Integer, nullable=False)
     a2 = db.Column(db.Integer, nullable=False)
     a3 = db.Column(db.Integer, nullable=False)
@@ -129,7 +128,7 @@ class Survey4(db.Model):
 
 class Survey5(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(100))
+    survey_id = db.Column(db.Integer)
     a1 = db.Column(db.String(100), nullable=False)
     a2 = db.Column(db.String(100), nullable=False)
     a3 = db.Column(db.Text(), nullable=False)
