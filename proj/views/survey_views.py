@@ -42,14 +42,18 @@ def detail(survey_title_id):
 
                     ans[cnt]=""
                     for a in alist:
+                        if a == "기타":
+                            a = request.form.get(str(survey_content.id) + "기타")
                         ans[cnt]+=", "+a
                     ans[cnt]=ans[cnt][2:]
 
                 else:
                     ans[cnt]=request.form.get(str(survey_content.id))
+                    if ans[cnt]=="기타":
+                        ans[cnt] = request.form.get(str(survey_content.id)+"기타")
                 cnt+=1
 
-            survey = Survey1(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8],a10=ans[9])
+            survey = Survey1(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8])
             db.session.add(survey)
             db.session.commit()
             session.clear()
