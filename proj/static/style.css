@@ -9,5 +9,32 @@ span{
   vertical-align: middle;
 }
 
-
-
+.select {
+    padding: 10px 10px;
+    display: inline-block
+}
+.select input[type=radio]{
+    display: none;
+}
+.select input[type=radio]+label{
+    display: inline-block;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    cursor: pointer;
+    height: 40px;
+    width: 130px;
+    border: 1px solid #c0c0c0;
+    line-height: 24px;
+    text-align: center;
+    font-weight:bold;
+    font-size:13px;
+}
+.select input[type=radio]+label{
+    background-color: #fff;
+    color: #333;
+}
+.select input[type=radio]:checked+label{
+    background-color: #333;
+    color: #fff;
+}

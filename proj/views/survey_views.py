@@ -31,6 +31,7 @@ def _list():
 def detail(survey_title_id):
     survey_title=Survey_title.query.get_or_404(survey_title_id)
     if request.method == 'POST':
+        ip = request.remote_addr
         if(survey_title_id==1):
             ans=[0 for i in range(9)]
             cnt=0
@@ -48,7 +49,7 @@ def detail(survey_title_id):
                     ans[cnt]=request.form.get(str(survey_content.id))
                 cnt+=1
 
-            survey = Survey1(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8])
+            survey = Survey1(ip=ip, a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8])
             db.session.add(survey)
             db.session.commit()
             return redirect(url_for('survey.detail', survey_title_id=2))
@@ -73,7 +74,7 @@ def detail(survey_title_id):
                     ans[cnt]=6
                 cnt+=1
 
-            survey = Survey2(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6])
+            survey = Survey2(ip=ip, a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6])
             db.session.add(survey)
             db.session.commit()
             return redirect(url_for('survey.detail', survey_title_id=3))
@@ -98,7 +99,7 @@ def detail(survey_title_id):
                     ans[cnt]=6
                 cnt+=1
 
-            survey = Survey3(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3])
+            survey = Survey3(ip=ip, a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3])
             db.session.add(survey)
             db.session.commit()
             return redirect(url_for('survey.detail', survey_title_id=4))
@@ -123,7 +124,7 @@ def detail(survey_title_id):
                     ans[cnt]=6
                 cnt+=1
 
-            survey = Survey4(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8],a10=ans[9],
+            survey = Survey4(ip=ip, a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8],a10=ans[9],
                              a11=ans[10],a12=ans[11],a13=ans[12],a14=ans[13],a15=ans[14],a16=ans[15],a17=ans[16],a18=ans[17],a19=ans[18],a20=ans[19],
                              a21=ans[20],a22=ans[21])
             db.session.add(survey)
@@ -147,7 +148,7 @@ def detail(survey_title_id):
                     ans[cnt] = request.form.get(str(survey_content.id))
                 cnt += 1
 
-            survey = Survey5(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3])
+            survey = Survey5(ip=ip, a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3])
             db.session.add(survey)
             db.session.commit()
             return redirect(url_for('survey.finish'))
