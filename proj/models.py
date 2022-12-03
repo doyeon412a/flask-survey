@@ -80,6 +80,7 @@ class Survey1(db.Model):
     a7 = db.Column(db.String(100), nullable=False)
     a8 = db.Column(db.String(100), nullable=False)
     a9 = db.Column(db.String(100), nullable=False)
+    a10 = db.Column(db.String(100), nullable=False)
 
 class Survey2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
