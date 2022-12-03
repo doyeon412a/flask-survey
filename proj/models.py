@@ -124,7 +124,6 @@ class Survey4(db.Model):
     a19 = db.Column(db.Integer, nullable=False)
     a20 = db.Column(db.Integer, nullable=False)
     a21 = db.Column(db.Integer, nullable=False)
-    a22 = db.Column(db.Integer, nullable=False)
 
 class Survey5(db.Model):
     id = db.Column(db.Integer, primary_key=True)
