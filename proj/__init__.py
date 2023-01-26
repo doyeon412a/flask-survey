@@ -65,7 +65,7 @@ def create_app():
             title_count = 0
             content_count = 0
             count=0
-            target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data.csv')
+            target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data2.csv')
             with open(target, 'r') as f:
                 reader = csv.reader(f)
                 next(reader)
