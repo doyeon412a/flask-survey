@@ -1,11 +1,91 @@
 from proj import db
+from flask_login import UserMixin, LoginManager
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
+import csv
+import pickle
 
 
-
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    role = db.relationship('Role', backref='users')
+
+    def can(self, permissions):
+        return self.role is not None and permissions in self.role.permissions
+
+    def __repr__(self):
+        return '<User {}>'.format(self.email)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+    def get_id(self):
+        return str(self.id)
+
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    permissions = db.Column(db.PickleType, default=[])
+
+    def __init__(self, **kwargs):
+        super(Role, self).__init__(**kwargs)
+
+    def add_permission(self, permission):
+        if permission not in self.permissions:
+            self.permissions.append(permission)
+
+    def remove_permission(self, permission):
+        if permission in self.permissions:
+            self.permissions.remove(permission)
+
+    def reset_permissions(self):
+        self.permissions = []
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'permissions': pickle.dumps(self.permissions).decode()
+        }
+        return data
+
+class Roles:
+    USER = 'user'
+    ADMIN = 'admin'
+    SUPERADMIN = 'superadmin'
+
+def create_roles():
+    role = Role.query.filter_by(name=Roles.USER).first()
+    if role is None:
+        user_role = Role(name=Roles.USER, permissions=[])
+
+        admin_role = Role(name=Roles.ADMIN, permissions=[])
+        admin_role.add_permission('admin')
+
+        superadmin_role = Role(name=Roles.SUPERADMIN, permissions=[])
+        superadmin_role.add_permission('admin')
+        superadmin_role.add_permission('superadmin')
+
+        db.session.add_all([user_role, admin_role, superadmin_role])
+        db.session.commit()
+
+def create_superadmin():
+    superadmin_role = Role.query.filter_by(name=Roles.SUPERADMIN).first()
+
+    user = User.query.filter_by(email='superadmin@aaaa.aa').first()
+    if user is None:
+        user = User(email='superadmin@aaaa.aa',
+                    password=generate_password_hash('password412')
+        )
+        user.role = superadmin_role
+        db.session.add(user)
+        db.session.commit()
 
 class Item_area(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,13 +153,16 @@ class Survey1(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     a1 = db.Column(db.String(100), nullable=False)
     a2 = db.Column(db.String(100), nullable=False)
-    a3 = db.Column(db.String(100), nullable=False)
+    a3 = db.Column(db.Text(), nullable=False)
     a4 = db.Column(db.String(100), nullable=False)
     a5 = db.Column(db.String(100), nullable=False)
     a6 = db.Column(db.String(100), nullable=False)
     a7 = db.Column(db.String(100), nullable=False)
     a8 = db.Column(db.String(100), nullable=False)
     a9 = db.Column(db.String(100), nullable=False)
+    a10 = db.Column(db.String(100), nullable=False)
+    a11 = db.Column(db.String(100), nullable=False)
+    a12 = db.Column(db.String(100), nullable=False)
 
 class Survey2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -132,3 +215,74 @@ class Survey5(db.Model):
     a2 = db.Column(db.String(100), nullable=False)
     a3 = db.Column(db.Text(), nullable=False)
     a4 = db.Column(db.Text(), nullable=False)
+
+def create_data():
+    if (Item_area.query.get(1) == None):
+        area_count = 0
+        title_count = 0
+        count = 0
+        target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data.csv')
+        with open(target, 'r') as f:
+            reader = csv.reader(f)
+            next(reader)
+            for i in reader:
+                # print(i)
+
+                if (int(i[1]) > area_count):
+                    area_count += 1
+                    new_entry = Item_area(area=i[2])
+                    db.session.add(new_entry)
+                    db.session.commit()
+                if (int(i[3]) > title_count):
+                    title_count += 1
+                    new_entry = Item_title(area=Item_area.query.get(area_count),
+                                                  title=i[4])
+                    db.session.add(new_entry)
+                    db.session.commit()
+                new_entry = Item_content(title=Item_title.query.get(title_count),
+                                                content=i[5],
+                                                usage=i[6])
+                db.session.add(new_entry)
+                db.session.commit()
+                count += 1
+                if (int(i[6]) != 3):
+                    for j in range(7, 24):
+                        if (i[j] == ''):
+                            break
+                        new_entry = Item_example(content=Item_content.query.get(count),
+                                                        example=i[j])
+                        db.session.add(new_entry)
+                        db.session.commit()
+
+    # 만족도조사
+    if (Survey_title.query.get(1) == None):
+        title_count = 0
+        content_count = 0
+        count = 0
+        target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data2.csv')
+        with open(target, 'r') as f:
+            reader = csv.reader(f)
+            next(reader)
+            for i in reader:
+                count += 1
+                if (int(i[1]) > title_count):
+                    title_count += 1
+                    content_count = 0
+                    new_entry = Survey_title(num=title_count, title=i[2])
+                    db.session.add(new_entry)
+                    db.session.commit()
+                if (int(i[3]) > content_count):
+                    content_count += 1
+                    new_entry = Survey_content(title=Survey_title.query.get(title_count),
+                                                      num=content_count, content=i[4], usage=i[5])
+                    db.session.add(new_entry)
+                    db.session.commit()
+
+                if (int(i[5]) != 3):
+                    for j in range(6, 23):
+                        if (i[j] == ''):
+                            break
+                        new_entry = Survey_example(content=Survey_content.query.get(count),
+                                                          example=i[j])
+                        db.session.add(new_entry)
+                        db.session.commit()

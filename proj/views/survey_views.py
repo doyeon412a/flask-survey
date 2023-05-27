@@ -33,7 +33,7 @@ def detail(survey_title_id):
     if request.method == 'POST':
         ip = request.remote_addr
         if(survey_title_id==1):
-            ans=[0 for i in range(10)]
+            ans=[0 for i in range(12)]
             cnt=0
 
             for survey_content in survey_title.survey_content_set:
@@ -53,7 +53,7 @@ def detail(survey_title_id):
                         ans[cnt] = request.form.get(str(survey_content.id)+"기타")
                 cnt+=1
 
-            survey = Survey1(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8])
+            survey = Survey1(a1=ans[0],a2=ans[1],a3=ans[2],a4=ans[3],a5=ans[4],a6=ans[5],a7=ans[6],a8=ans[7],a9=ans[8], a10=ans[9], a11=ans[10], a12=ans[11])
             db.session.add(survey)
             db.session.commit()
             session.clear()
