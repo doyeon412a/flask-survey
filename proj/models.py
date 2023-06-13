@@ -197,16 +197,6 @@ class Survey4(db.Model):
     a9 = db.Column(db.Integer, nullable=False)
     a10 = db.Column(db.Integer, nullable=False)
     a11 = db.Column(db.Integer, nullable=False)
-    a12 = db.Column(db.Integer, nullable=False)
-    a13 = db.Column(db.Integer, nullable=False)
-    a14 = db.Column(db.Integer, nullable=False)
-    a15 = db.Column(db.Integer, nullable=False)
-    a16 = db.Column(db.Integer, nullable=False)
-    a17 = db.Column(db.Integer, nullable=False)
-    a18 = db.Column(db.Integer, nullable=False)
-    a19 = db.Column(db.Integer, nullable=False)
-    a20 = db.Column(db.Integer, nullable=False)
-    a21 = db.Column(db.Integer, nullable=False)
 
 class Survey5(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -259,7 +249,7 @@ def create_data():
         title_count = 0
         content_count = 0
         count = 0
-        target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data2.csv')
+        target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data4.csv')
         with open(target, 'r') as f:
             reader = csv.reader(f)
             next(reader)

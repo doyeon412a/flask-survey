@@ -29,7 +29,7 @@ def create_app():
     migrate.init_app(app, db)
 
     from . import models
-
+    '''
     with app.app_context():
     #    models.create_roles()
     #    models.create_superadmin()
@@ -40,7 +40,7 @@ def create_app():
             title_count = 0
             content_count = 0
             count=0
-            target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data3.csv')
+            target = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'survey_data4.csv')
             with open(target, 'r') as f:
                 reader = csv.reader(f)
                 next(reader)
@@ -68,7 +68,7 @@ def create_app():
                             db.session.add(new_entry)
                             db.session.commit()
 
-
+    '''
     #블루프린트
     from .views import main_views, question_views, answer_views, auth_views,item_area_views, survey_views
     app.register_blueprint(main_views.bp)
